@@ -1,0 +1,2 @@
+class CatalogueTooManyRequestsError(Exception):
+    pass
