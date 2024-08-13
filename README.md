@@ -48,7 +48,7 @@ api.get_catalogue(size=10) # Default: 32
 # You can combine these arguments
 api.get_catalogue(query="Sword", page=10, size=10)
 
-# You can use the aix loop to go through all the pages.
+# You can use the for loop to go through all the pages.
 for page in api.get_catalogue.next_page(query="Sword", page=10, size=10):
     print(page)
 ```
