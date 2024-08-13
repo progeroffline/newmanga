@@ -1,9 +1,8 @@
-import time
 import httpx
-from utils.newmanga.types import CatalogueResponse
 from typing import Generator, Optional
 
 from .. import consts, formatters, queries_data
+from ..types import CatalogueResponse
 from ..errors import CatalogueTooManyRequestsError
 
 
