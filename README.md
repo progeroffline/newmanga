@@ -8,6 +8,11 @@ Unfortunately, it is now only possible to obtain data from the catalog, but soon
 
 - Search manga in catalogue
 
+## Installing
+```bash
+pip install newmanga
+```
+
 ## Usage
 
 ### Working example.
