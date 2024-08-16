@@ -8,6 +8,68 @@ from ..typing.enums import MangaType, MangaStatus
 
 @dataclass()
 class Manga:
+    """Data class representing a manga.
+
+    Parameters
+    ----------
+    _client : httpx.Client
+        An instance of the HTTP client.
+    id : int, optional
+        The unique identifier for the manga.
+    title_ru : str, optional
+        The title of the manga in Russian.
+    title_en : str, optional
+        The title of the manga in English.
+    title_original : str, optional
+        The original title of the manga.
+    image : str, optional
+        URL to the manga's cover image.
+    type : MangaType, optional
+        The type of the manga (e.g., manga, manhua).
+    rating : float, optional
+        The average rating of the manga.
+    rating_count : int, optional
+        The number of ratings the manga has received.
+    hearts : int, optional
+        The number of hearts (likes) the manga has received.
+    views : int, optional
+        The number of views of the manga.
+    bookmarks : int, optional
+        The number of bookmarks the manga has received.
+    status : MangaStatus, optional
+        The publication status of the manga (e.g., ongoing, completed).
+    description : str, optional
+        A description of the manga.
+    genres : list[Genre], optional
+        A list of genres associated with the manga.
+    tags : list[Tag], optional
+        A list of tags associated with the manga.
+    author : Author, optional
+        The author of the manga.
+    artist : Artist, optional
+        The artist of the manga.
+    release_date : str, optional
+        The release date of the manga.
+    adult : str, optional
+        An indication if the manga is for adults.
+    tomes : list[int], optional
+        A list of tomes (volumes) of the manga.
+    count_chapters : int, optional
+        The total number of chapters in the manga.
+    original_status : MangaStatus, optional
+        The original publication status of the manga.
+    slug : str, optional
+        A URL-friendly version of the manga's title.
+    branches : list[Branch], optional
+        A list of branches (e.g., publishers or series) related to the manga.
+    original_url : str, optional
+        The URL to the original source of the manga.
+    english_url : str, optional
+        The URL to the English version of the manga.
+    other_url : str, optional
+        The URL to other versions of the manga.
+    """
+
     _client: httpx.Client = field(repr=False)
     id: int | None = None
     title_ru: str | None = None
@@ -38,5 +100,18 @@ class Manga:
     other_url: str | None = None
 
     def __call__(self, slug: str) -> "Manga":
+        """
+        Fetches and returns a Manga object based on the provided slug.
+
+        Parameters
+        ----------
+        slug : str
+            The URL-friendly title of the manga.
+
+        Returns
+        -------
+        Manga
+            An instance of the Manga class with the data fetched from the API.
+        """
         response = self._client.get(constants.manga_api + "/" + slug).json()
         return formatters.json_to_manga(self._client, response)

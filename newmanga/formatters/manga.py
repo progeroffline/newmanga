@@ -16,7 +16,23 @@ from ..constants import image_storage_url
 
 
 class MangaFormatter:
+    """Formatter for converting raw manga data into a structured Manga object.
+
+    Parameters
+    ----------
+    data : Dict[str, Any]
+        A dictionary containing raw manga data.
+    """
+
     def __init__(self, data: Dict[str, Any]):
+        """
+        Initialize the MangaFormatter with raw data.
+
+        Parameters
+        ----------
+        data : Dict[str, Any]
+            A dictionary containing raw manga data.
+        """
         self.data = data
         self.id: Optional[int] = None
         self.title_ru: Optional[str] = None
@@ -49,6 +65,9 @@ class MangaFormatter:
         self._load_variables()
 
     def _load_variables(self) -> None:
+        """
+        Load all variables from the raw data dictionary.
+        """
         self._load_id()
         self._load_title_ru()
         self._load_title_en()
@@ -77,9 +96,15 @@ class MangaFormatter:
         self._load_other_url()
 
     def _load_id(self) -> None:
+        """
+        Load the manga ID from the raw data.
+        """
         self.id = int(self.data["id"]) if self.data.get("id") else None
 
     def _load_title_ru(self) -> None:
+        """
+        Load the Russian title from the raw data.
+        """
         self.title_ru = (
             self.data["title"]["ru"]
             if self.data.get("title")
@@ -87,6 +112,9 @@ class MangaFormatter:
         )
 
     def _load_title_en(self) -> None:
+        """
+        Load the English title from the raw data.
+        """
         self.title_en = (
             self.data["title"]["en"]
             if self.data.get("title")
@@ -94,6 +122,9 @@ class MangaFormatter:
         )
 
     def _load_title_original(self) -> None:
+        """
+        Load the original title from the raw data.
+        """
         self.title_original = (
             self.data["title"]["original"]
             if self.data.get("title")
@@ -101,6 +132,9 @@ class MangaFormatter:
         )
 
     def _load_image(self) -> None:
+        """
+        Load the image URL from the raw data.
+        """
         self.image = (
             image_storage_url
             + "/"
@@ -112,27 +146,51 @@ class MangaFormatter:
         )
 
     def _load_type(self) -> None:
+        """
+        Load the manga type from the raw data.
+        """
         self.type = MangaType(self.data.get("type"))
 
     def _load_rating(self) -> None:
+        """
+        Load the rating from the raw data.
+        """
         self.rating = self.data.get("rating")
 
     def _load_hearts(self) -> None:
+        """
+        Load the number of hearts (likes) from the raw data.
+        """
         self.hearts = self.data.get("hearts")
 
     def _load_views(self) -> None:
+        """
+        Load the number of views from the raw data.
+        """
         self.views = self.data.get("views")
 
     def _load_bookmarks(self) -> None:
+        """
+        Load the number of bookmarks from the raw data.
+        """
         self.bookmarks = self.data.get("bookmarks")
 
     def _load_status(self) -> None:
+        """
+        Load the manga status from the raw data.
+        """
         self.status = MangaStatus(self.data.get("status"))
 
     def _load_description(self) -> None:
+        """
+        Load the description from the raw data.
+        """
         self.description = self.data.get("description")
 
     def _load_genres(self) -> None:
+        """
+        Load the genres from the raw data.
+        """
         if len(self.data["genres"]) == 0:
             return
 
@@ -150,23 +208,29 @@ class MangaFormatter:
             ]
 
     def _load_tags(self) -> None:
+        """
+        Load the tags from the raw data.
+        """
         if len(self.data["tags"]) == 0:
             return
 
         if isinstance(self.data["tags"][0], str):
-            self.tags = [Tag(title_ru=genre) for genre in self.data["tags"]]
+            self.tags = [Tag(title_ru=tag) for tag in self.data["tags"]]
         else:
             self.tags = [
                 Tag(
-                    id=genre["id"],
-                    title_ru=genre["title"]["ru"],
-                    title_en=genre["title"]["en"],
-                    title_original=genre["title"]["original"],
+                    id=tag["id"],
+                    title_ru=tag["title"]["ru"],
+                    title_en=tag["title"]["en"],
+                    title_original=tag["title"]["original"],
                 )
-                for genre in self.data["tags"]
+                for tag in self.data["tags"]
             ]
 
     def _load_author(self) -> None:
+        """
+        Load the author from the raw data.
+        """
         if self.data.get("author"):
             self.author = Author(
                 id=self.data["author"]["id"],
@@ -178,38 +242,62 @@ class MangaFormatter:
             )
 
     def _load_artist(self) -> None:
-        if self.data.get("author"):
+        """
+        Load the artist from the raw data.
+        """
+        if self.data.get("artist"):
             self.artist = Artist(
-                id=self.data["author"]["id"],
-                name=self.data["author"]["name"],
-                description=self.data["author"]["description"],
+                id=self.data["artist"]["id"],
+                name=self.data["artist"]["name"],
+                description=self.data["artist"]["description"],
                 image_url=image_storage_url
                 + "/"
-                + self.data["author"]["image"]["name"],
+                + self.data["artist"]["image"]["name"],
             )
 
     def _load_release_date(self) -> None:
+        """
+        Load the release date from the raw data.
+        """
         if self.data.get("released_at"):
             self.release_date = datetime.fromtimestamp(self.data["released_at"])
         else:
             self.release_date = datetime.strptime(self.data["release_date"], "%Y-%m-%d")
 
     def _load_adult(self) -> None:
+        """
+        Load the adult rating from the raw data.
+        """
         self.adult = int(self.data["adult"]) if self.data.get("adult") else None
 
     def _load_tomes(self) -> None:
+        """
+        Load the list of tomes from the raw data.
+        """
         self.tomes = self.data.get("tomes")
 
     def _load_count_chapters(self) -> None:
+        """
+        Load the number of chapters from the raw data.
+        """
         self.count_chapters = self.data.get("count_chapters")
 
     def _load_original_status(self) -> None:
+        """
+        Load the original status from the raw data.
+        """
         self.original_status = MangaStatus(self.data.get("original_status"))
 
     def _load_slug(self) -> None:
+        """
+        Load the slug from the raw data.
+        """
         self.slug = self.data.get("slug")
 
     def _load_branches(self) -> None:
+        """
+        Load the branches from the raw data.
+        """
         if self.data.get("branches"):
             self.branches = [
                 Branch(
@@ -222,7 +310,7 @@ class MangaFormatter:
                         Translator(
                             id=translator["id"],
                             balance=translator["balance"],
-                            is_team=translator["is_team"],
+                            is_team=translator["is_team "],
                             is_verified=translator["is_verified"],
                             user=User(
                                 id=translator["user"]["id"],
@@ -284,15 +372,32 @@ class MangaFormatter:
             ]
 
     def _load_original_url(self) -> None:
+        """
+        Load the original URL from the raw data.
+        """
         self.original_url = self.data.get("original_url")
 
     def _load_english_url(self) -> None:
+        """
+        Load the English URL from the raw data.
+        """
         self.english_url = self.data.get("english_url")
 
     def _load_other_url(self) -> None:
+        """
+        Load the other URL from the raw data.
+        """
         self.other_url = self.data.get("other_url")
 
     def get_vars(self) -> dict[str, Any]:
+        """
+        Get the instance variables as a dictionary.
+
+        Returns
+        -------
+        dict[str, Any]
+            A dictionary of instance variables, excluding the raw data and other unnecessary attributes.
+        """
         vars = self.__dict__
         vars.pop("data")
         if vars.get("created_at"):
