@@ -1,8 +1,8 @@
 import httpx
 from typing import Generator, Optional
 
-from .. import consts, formatters, queries_data
-from ..types import CatalogueResponse
+from .. import constants, formatters, queries_data
+from ..typing.responses import CatalogueResponse
 from ..errors import CatalogueTooManyRequestsError
 
 
@@ -35,7 +35,7 @@ class Catalogue:
         json_data["pagination"]["page"] = page
         json_data["pagination"]["size"] = size
 
-        while response := self.client.post(consts.catalogue, json=json_data):
+        while response := self.client.post(constants.catalogue, json=json_data):
             if response.status_code in [502, 429]:
                 raise CatalogueTooManyRequestsError(
                     "You making too many requests in a row"
@@ -47,5 +47,7 @@ class Catalogue:
             ):
                 break
 
-            yield formatters.json_to_catalogue_reponse(response.json()["result"])
+            yield formatters.json_to_catalogue_reponse(
+                self.client, response.json()["result"]
+            )
             json_data["pagination"]["page"] += 1
