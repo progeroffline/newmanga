@@ -2,7 +2,8 @@ from typing import Optional
 import httpx
 
 from .catalogue import Catalogue
-from ..consts import headers
+from .manga import Manga
+from ..constants import headers
 
 
 class NewMangaApi:
@@ -14,3 +15,4 @@ class NewMangaApi:
             else None,
         )
         self.get_catalogue = Catalogue(self.client)
+        self.get_manga = Manga(self.client)
