@@ -7,9 +7,9 @@ images_storage_domain = "img.newmanga.org"
 # Enpoints section
 catalogue = f"https://{api_domain}/catalogue"
 manga = f"https://{web_domain}/p"
-manga_api = f"https://{api_v2_domain}/v2"
+manga_api = f"https://{api_v2_domain}/v2/projects"
 
-image = f"https://{images_storage_domain}/ProjectCard/webp"
+image_storage_url = f"https://{images_storage_domain}/ProjectCard/webp"
 
 # Auth section
 headers = {
