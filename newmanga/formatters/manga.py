@@ -310,7 +310,7 @@ class MangaFormatter:
                         Translator(
                             id=translator["id"],
                             balance=translator["balance"],
-                            is_team=translator["is_team "],
+                            is_team=translator["is_team"],
                             is_verified=translator["is_verified"],
                             user=User(
                                 id=translator["user"]["id"],
