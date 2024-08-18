@@ -40,3 +40,5 @@ catalogue = {
         "size": 32,
     },
 }
+
+comments = {"sort_by": "new"}
