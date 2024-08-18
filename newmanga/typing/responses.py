@@ -28,15 +28,44 @@ class CatalogueResponse:
 
 @dataclass()
 class CommentsResponse:
+    """
+    Data class representing a response containing a list of comments.
+
+    Attributes
+    ----------
+    comments : list[Comment]
+        A list of comments.
+    """
+
     comments: list[Comment]
 
 
 @dataclass()
 class SimilarResponse:
+    """
+    Data class representing a response containing a list of similar mangas.
+
+    Attributes
+    ----------
+    mangas : list[Manga]
+        A list of similar mangas.
+    """
+
     mangas: list[Manga]
 
 
 @dataclass()
 class ChaptersResponse:
+    """
+    Data class representing a response containing a list of chapters and the total count.
+
+    Attributes
+    ----------
+    chapters : list[Chapter]
+        A list of chapters.
+    count : int
+        The total number of chapters available.
+    """
+
     chapters: list[Chapter]
     count: int

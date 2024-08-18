@@ -13,12 +13,13 @@ if TYPE_CHECKING:
 
 @dataclass()
 class Manga:
-    """Data class representing a manga.
+    """
+    Data class representing a manga.
 
-    Parameters
+    Attributes
     ----------
     _client : httpx.Client
-        An instance of the HTTP client.
+        An instance of the HTTP client used for making API requests.
     id : int, optional
         The unique identifier for the manga.
     title_ru : str, optional
@@ -122,6 +123,19 @@ class Manga:
         return formatters.json_to_object.json_to_manga(self._client, response)
 
     def get_comments(self, sort_by: str = "new") -> "CommentsResponse":
+        """
+        Fetches comments for the manga.
+
+        Parameters
+        ----------
+        sort_by : str, optional
+            The sorting method for comments, by default "new".
+
+        Returns
+        -------
+        CommentsResponse
+            The response containing a list of comments.
+        """
         params = queries_data.comments.copy()
         params["sort_by"] = sort_by
 
@@ -131,6 +145,14 @@ class Manga:
         return formatters.json_to_comments_response(response)
 
     def get_similar(self) -> "SimilarResponse":
+        """
+        Fetches similar manga recommendations.
+
+        Returns
+        -------
+        SimilarResponse
+            The response containing a list of similar manga.
+        """
         response = self._client.get(constants.similar.format(slug=self.slug)).json()
         return formatters.json_to_similar_response(self._client, response)
 
@@ -140,6 +162,23 @@ class Manga:
         size: int = 25,
         reverse: bool = False,
     ) -> "ChaptersResponse":
+        """
+        Fetches a paginated list of chapters for the manga.
+
+        Parameters
+        ----------
+        page : int, optional
+            The page number to fetch, by default 1.
+        size : int, optional
+            The number of chapters per page, by default 25.
+        reverse : bool, optional
+            If true, chapters are ordered in reverse, by default False.
+
+        Returns
+        -------
+        ChaptersResponse
+            The response containing a list of chapters.
+        """
         params = queries_data.chapters.copy()
         params["page"] = str(page)
         params["size"] = str(size)

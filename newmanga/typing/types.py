@@ -228,6 +228,37 @@ class Artist:
 
 @dataclass()
 class Comment:
+    """
+    Data class representing a comment on a manga.
+
+    Attributes
+    ----------
+    id : int
+        The unique identifier of the comment.
+    text : str
+        The text content of the comment.
+    chapter_id : int | None
+        The ID of the chapter the comment is associated with, if any.
+    manga_id : int | None
+        The ID of the manga the comment is associated with, if any.
+    team_id : int | None
+        The ID of the team associated with the comment, if any.
+    parent_id : int | None
+        The ID of the parent comment if this is a reply.
+    user : User
+        The user who posted the comment.
+    created_at : datetime
+        The date and time when the comment was created.
+    answers : list[Comment]
+        A list of replies (nested comments) to this comment.
+    likes : int
+        The number of likes the comment has received.
+    dislikes : int
+        The number of dislikes the comment has received.
+    rating : int
+        The overall rating of the comment.
+    """
+
     id: int
     text: str
     chapter_id: int | None
@@ -244,6 +275,35 @@ class Comment:
 
 @dataclass()
 class Chapter:
+    """
+    Data class representing a chapter of a manga.
+
+    Attributes
+    ----------
+    id : int
+        The unique identifier of the chapter.
+    tom : int
+        The volume number (tom) of the chapter.
+    name : str | None
+        The name of the chapter, if available.
+    number : int
+        The chapter number within the manga.
+    manga_id : int
+        The ID of the manga this chapter belongs to.
+    branch_id : int
+        The ID of the branch this chapter is associated with.
+    hearts : int
+        The number of hearts (likes) the chapter has received.
+    price : float | None
+        The price of the chapter, if applicable.
+    translator : str
+        The name of the translator for the chapter.
+    create_at : datetime
+        The date and time when the chapter was created.
+    pages : int
+        The number of pages in the chapter.
+    """
+
     id: int
     tom: int
     name: str | None

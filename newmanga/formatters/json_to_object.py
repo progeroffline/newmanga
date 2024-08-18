@@ -28,6 +28,19 @@ def json_to_manga(client: httpx.Client, data: dict[str, Any]) -> Manga:
 
 
 def json_to_user(data: dict[str, Any]) -> User:
+    """
+    Converts a dictionary representing a user to a User object.
+
+    Parameters
+    ----------
+    data : dict[str, Any]
+        A dictionary containing user data.
+
+    Returns
+    -------
+    User
+        An object representing the user.
+    """
     return User(
         id=data["id"],
         name=data["name"],
@@ -44,6 +57,19 @@ def json_to_user(data: dict[str, Any]) -> User:
 
 
 def json_to_comment(data: dict[str, Any]) -> Comment:
+    """
+    Converts a dictionary representing a comment to a Comment object.
+
+    Parameters
+    ----------
+    data : dict[str, Any]
+        A dictionary containing comment data.
+
+    Returns
+    -------
+    Comment
+        An object representing the comment.
+    """
     return Comment(
         id=data["id"],
         text=data["html"],
@@ -61,6 +87,19 @@ def json_to_comment(data: dict[str, Any]) -> Comment:
 
 
 def json_to_chapter(data: dict[str, Any]) -> Chapter:
+    """
+    Converts a dictionary representing a chapter to a Chapter object.
+
+    Parameters
+    ----------
+    data : dict[str, Any]
+        A dictionary containing chapter data.
+
+    Returns
+    -------
+    Chapter
+        An object representing the chapter.
+    """
     return Chapter(
         id=data["id"],
         tom=data["tom"],

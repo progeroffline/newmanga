@@ -4,7 +4,7 @@ api_v2_domain = "api.newmanga.org"
 web_domain = "newmanga.org"
 images_storage_domain = "img.newmanga.org"
 
-# Enpoints section
+# Endpoints section
 catalogue = f"https://{api_domain}/catalogue"
 manga = f"https://{web_domain}/p"
 comments = "https://" + api_v2_domain + "/v2/projects/{slug}/comments"
