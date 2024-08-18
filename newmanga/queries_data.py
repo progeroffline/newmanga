@@ -42,3 +42,8 @@ catalogue = {
 }
 
 comments = {"sort_by": "new"}
+chapters = {
+    "reverse": "true",
+    "page": "1",
+    "size": "25",
+}
