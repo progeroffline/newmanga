@@ -134,4 +134,19 @@ class Manga:
         response = self._client.get(constants.similar.format(slug=self.slug)).json()
         return formatters.json_to_similar_response(self._client, response)
 
-    def get_chapters(self) -> "ChaptersResponse": ...
+    def get_chapters(
+        self,
+        page: int = 1,
+        size: int = 25,
+        reverse: bool = False,
+    ) -> "ChaptersResponse":
+        params = queries_data.chapters.copy()
+        params["page"] = str(page)
+        params["size"] = str(size)
+        params["reverse"] = str(reverse)
+
+        response = self._client.get(
+            constants.chapters.format(id=self.id),
+            params=params,
+        ).json()
+        return formatters.json_to_chapters_response(response)
