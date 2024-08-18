@@ -68,6 +68,8 @@ class Manga:
         A URL-friendly version of the manga's title.
     branches : list[Branch], optional
         A list of branches (e.g., publishers or series) related to the manga.
+    url: str, optional
+        The URL to the NewManga vesrion of the manga.
     original_url : str, optional
         The URL to the original source of the manga.
     english_url : str, optional
@@ -101,6 +103,7 @@ class Manga:
     original_status: MangaStatus | None = None
     slug: str | None = None
     branches: list[Branch] = field(default_factory=list)
+    url: str | None = None
     original_url: str | None = None
     english_url: str | None = None
     other_url: str | None = None
