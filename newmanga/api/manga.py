@@ -1,9 +1,14 @@
-from dataclasses import dataclass, field
 import httpx
+from typing import TYPE_CHECKING
+from dataclasses import dataclass, field
 
-from .. import constants, formatters
+
+from .. import constants, formatters, queries_data
 from ..typing.types import Genre, Tag, Author, Artist, Branch
 from ..typing.enums import MangaType, MangaStatus
+
+if TYPE_CHECKING:
+    from ..typing.responses import CommentsResponse, ChaptersResponse, SimilarResponse
 
 
 @dataclass()
@@ -114,4 +119,17 @@ class Manga:
             An instance of the Manga class with the data fetched from the API.
         """
         response = self._client.get(constants.manga_api + "/" + slug).json()
-        return formatters.json_to_manga(self._client, response)
+        return formatters.json_to_object.json_to_manga(self._client, response)
+
+    def get_comments(self, sort_by: str = "new") -> "CommentsResponse":
+        params = queries_data.comments.copy()
+        params["sort_by"] = sort_by
+
+        response = self._client.get(
+            constants.comments.format(slug=self.slug), params=queries_data.comments
+        ).json()
+        return formatters.json_to_comments_response(response)
+
+    def get_chapters(self) -> "ChaptersResponse": ...
+
+    def get_similar(self) -> "SimilarResponse": ...

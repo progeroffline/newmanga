@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, List, Optional
@@ -223,3 +224,19 @@ class Artist:
     name: str
     description: str
     image_url: str
+
+
+@dataclass()
+class Comment:
+    id: int
+    text: str
+    chapter_id: int | None
+    manga_id: int | None
+    team_id: int | None
+    parent_id: int | None
+    user: User
+    created_at: datetime
+    answers: list[Comment]
+    likes: int
+    dislikes: int
+    rating: int
