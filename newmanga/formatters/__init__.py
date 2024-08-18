@@ -1,7 +1,7 @@
 from typing import Any
 
 import httpx
-from ..typing.responses import CatalogueResponse, CommentsResponse
+from ..typing.responses import CatalogueResponse, CommentsResponse, SimilarResponse
 from . import json_to_object
 
 
@@ -37,4 +37,12 @@ def json_to_catalogue_reponse(
 def json_to_comments_response(data: list[dict[str, Any]]) -> CommentsResponse:
     return CommentsResponse(
         comments=[json_to_object.json_to_comment(row) for row in data]
+    )
+
+
+def json_to_similar_response(
+    client: httpx.Client, data: list[dict[str, Any]]
+) -> SimilarResponse:
+    return SimilarResponse(
+        mangas=[json_to_object.json_to_manga(client, row) for row in data]
     )

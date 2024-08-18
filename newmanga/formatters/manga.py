@@ -179,7 +179,8 @@ class MangaFormatter:
         """
         Load the manga status from the raw data.
         """
-        self.status = MangaStatus(self.data.get("status"))
+        if self.data.get("status"):
+            self.status = MangaStatus(self.data.get("status"))
 
     def _load_description(self) -> None:
         """
@@ -191,6 +192,9 @@ class MangaFormatter:
         """
         Load the genres from the raw data.
         """
+        if self.data.get("genres") is None:
+            return
+
         if len(self.data["genres"]) == 0:
             return
 
@@ -211,6 +215,9 @@ class MangaFormatter:
         """
         Load the tags from the raw data.
         """
+        if self.data.get("tags") is None:
+            return
+
         if len(self.data["tags"]) == 0:
             return
 
@@ -261,7 +268,7 @@ class MangaFormatter:
         """
         if self.data.get("released_at"):
             self.release_date = datetime.fromtimestamp(self.data["released_at"])
-        else:
+        elif self.data.get("release_date"):
             self.release_date = datetime.strptime(self.data["release_date"], "%Y-%m-%d")
 
     def _load_adult(self) -> None:
@@ -286,7 +293,8 @@ class MangaFormatter:
         """
         Load the original status from the raw data.
         """
-        self.original_status = MangaStatus(self.data.get("original_status"))
+        if self.data.get("original_status"):
+            self.original_status = MangaStatus(self.data.get("original_status"))
 
     def _load_slug(self) -> None:
         """

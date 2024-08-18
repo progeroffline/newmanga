@@ -36,4 +36,5 @@ class ChaptersResponse: ...
 
 
 @dataclass()
-class SimilarResponse: ...
+class SimilarResponse:
+    mangas: list[Manga]
