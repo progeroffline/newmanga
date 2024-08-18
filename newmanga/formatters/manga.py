@@ -11,7 +11,7 @@ from ..typing.types import (
     Translator,
     Team,
 )
-from ..constants import image_storage_url
+from ..constants import image_storage_url, manga
 from . import json_to_object
 
 
@@ -58,6 +58,7 @@ class MangaFormatter:
         self.original_status: Optional[MangaStatus] = None
         self.slug: Optional[str] = None
         self.branches: Optional[list[Branch]] = []
+        self.url: Optional[str] = None
         self.original_url: Optional[str] = None
         self.english_url: Optional[str] = None
         self.other_url: Optional[str] = None
@@ -91,6 +92,7 @@ class MangaFormatter:
         self._load_original_status()
         self._load_slug()
         self._load_branches()
+        self._load_url()
         self._load_original_url()
         self._load_english_url()
         self._load_other_url()
@@ -348,6 +350,12 @@ class MangaFormatter:
                 )
                 for branch in self.data["branches"]
             ]
+
+    def _load_url(self) -> None:
+        """
+        Load the NewManga URL from the raw data.
+        """
+        self.url = manga + "/" + self.data["slug"]
 
     def _load_original_url(self) -> None:
         """
