@@ -240,3 +240,18 @@ class Comment:
     likes: int
     dislikes: int
     rating: int
+
+
+@dataclass()
+class Chapter:
+    id: int
+    tom: int
+    name: str | None
+    number: int
+    manga_id: int
+    branch_id: int
+    hearts: int
+    price: float | None
+    translator: str
+    create_at: datetime
+    pages: int

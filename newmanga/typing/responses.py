@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from ..api.manga import Manga
-from .types import Comment
+from .types import Comment, Chapter
 
 
 @dataclass()
@@ -32,9 +32,11 @@ class CommentsResponse:
 
 
 @dataclass()
-class ChaptersResponse: ...
+class SimilarResponse:
+    mangas: list[Manga]
 
 
 @dataclass()
-class SimilarResponse:
-    mangas: list[Manga]
+class ChaptersResponse:
+    chapters: list[Chapter]
+    count: int
