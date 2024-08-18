@@ -8,6 +8,7 @@ images_storage_domain = "img.newmanga.org"
 catalogue = f"https://{api_domain}/catalogue"
 manga = f"https://{web_domain}/p"
 comments = "https://" + api_v2_domain + "/v2/projects/{slug}/comments"
+similar = "https://" + api_v2_domain + "/v2/projects/{slug}/similar"
 manga_api = f"https://{api_v2_domain}/v2/projects"
 
 image_storage_url = f"https://{images_storage_domain}/ProjectCard/webp"
