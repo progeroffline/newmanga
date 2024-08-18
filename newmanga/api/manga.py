@@ -130,6 +130,8 @@ class Manga:
         ).json()
         return formatters.json_to_comments_response(response)
 
-    def get_chapters(self) -> "ChaptersResponse": ...
+    def get_similar(self) -> "SimilarResponse":
+        response = self._client.get(constants.similar.format(slug=self.slug)).json()
+        return formatters.json_to_similar_response(self._client, response)
 
-    def get_similar(self) -> "SimilarResponse": ...
+    def get_chapters(self) -> "ChaptersResponse": ...
