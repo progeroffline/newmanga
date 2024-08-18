@@ -10,9 +10,9 @@ from ..typing.types import (
     Tag,
     Translator,
     Team,
-    User,
 )
-from ..constants import image_storage_url
+from ..constants import image_storage_url, manga
+from . import json_to_object
 
 
 class MangaFormatter:
@@ -58,6 +58,7 @@ class MangaFormatter:
         self.original_status: Optional[MangaStatus] = None
         self.slug: Optional[str] = None
         self.branches: Optional[list[Branch]] = []
+        self.url: Optional[str] = None
         self.original_url: Optional[str] = None
         self.english_url: Optional[str] = None
         self.other_url: Optional[str] = None
@@ -91,6 +92,7 @@ class MangaFormatter:
         self._load_original_status()
         self._load_slug()
         self._load_branches()
+        self._load_url()
         self._load_original_url()
         self._load_english_url()
         self._load_other_url()
@@ -179,7 +181,8 @@ class MangaFormatter:
         """
         Load the manga status from the raw data.
         """
-        self.status = MangaStatus(self.data.get("status"))
+        if self.data.get("status"):
+            self.status = MangaStatus(self.data.get("status"))
 
     def _load_description(self) -> None:
         """
@@ -191,6 +194,9 @@ class MangaFormatter:
         """
         Load the genres from the raw data.
         """
+        if self.data.get("genres") is None:
+            return
+
         if len(self.data["genres"]) == 0:
             return
 
@@ -211,6 +217,9 @@ class MangaFormatter:
         """
         Load the tags from the raw data.
         """
+        if self.data.get("tags") is None:
+            return
+
         if len(self.data["tags"]) == 0:
             return
 
@@ -261,7 +270,7 @@ class MangaFormatter:
         """
         if self.data.get("released_at"):
             self.release_date = datetime.fromtimestamp(self.data["released_at"])
-        else:
+        elif self.data.get("release_date"):
             self.release_date = datetime.strptime(self.data["release_date"], "%Y-%m-%d")
 
     def _load_adult(self) -> None:
@@ -286,7 +295,8 @@ class MangaFormatter:
         """
         Load the original status from the raw data.
         """
-        self.original_status = MangaStatus(self.data.get("original_status"))
+        if self.data.get("original_status"):
+            self.original_status = MangaStatus(self.data.get("original_status"))
 
     def _load_slug(self) -> None:
         """
@@ -312,21 +322,7 @@ class MangaFormatter:
                             balance=translator["balance"],
                             is_team=translator["is_team"],
                             is_verified=translator["is_verified"],
-                            user=User(
-                                id=translator["user"]["id"],
-                                name=translator["user"]["name"],
-                                is_admin=translator["user"]["is_admin"],
-                                is_moderator=translator["user"]["is_moderator"],
-                                is_translator=translator["user"]["is_translator"],
-                                is_active=translator["user"]["is_active"],
-                                last_login=datetime.fromisoformat(
-                                    translator["user"]["last_login"],
-                                ),
-                                is_online=translator["user"]["is_online"],
-                                image_url=image_storage_url
-                                + "/"
-                                + translator["user"]["image"]["name"],
-                            )
+                            user=json_to_object.json_to_user(translator["user"])
                             if translator.get("user")
                             else None,
                             team=Team(
@@ -339,23 +335,7 @@ class MangaFormatter:
                                     Member(
                                         id=member["id"],
                                         statuses=member["statuses"],
-                                        user=User(
-                                            id=member["user"]["id"],
-                                            name=member["user"]["name"],
-                                            is_admin=member["user"]["is_admin"],
-                                            is_moderator=member["user"]["is_moderator"],
-                                            is_translator=member["user"][
-                                                "is_translator"
-                                            ],
-                                            is_active=member["user"]["is_active"],
-                                            last_login=datetime.fromisoformat(
-                                                member["user"]["last_login"],
-                                            ),
-                                            is_online=member["user"]["is_online"],
-                                            image_url=image_storage_url
-                                            + "/"
-                                            + member["user"]["image"]["name"],
-                                        )
+                                        user=json_to_object.json_to_user(member["user"])
                                         if member.get("user")
                                         else None,
                                     )
@@ -370,6 +350,12 @@ class MangaFormatter:
                 )
                 for branch in self.data["branches"]
             ]
+
+    def _load_url(self) -> None:
+        """
+        Load the NewManga URL from the raw data.
+        """
+        self.url = manga + "/" + self.data["slug"]
 
     def _load_original_url(self) -> None:
         """

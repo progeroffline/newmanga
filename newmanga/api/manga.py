@@ -1,19 +1,25 @@
-from dataclasses import dataclass, field
 import httpx
+from typing import TYPE_CHECKING
+from dataclasses import dataclass, field
 
-from .. import constants, formatters
+
+from .. import constants, formatters, queries_data
 from ..typing.types import Genre, Tag, Author, Artist, Branch
 from ..typing.enums import MangaType, MangaStatus
+
+if TYPE_CHECKING:
+    from ..typing.responses import CommentsResponse, ChaptersResponse, SimilarResponse
 
 
 @dataclass()
 class Manga:
-    """Data class representing a manga.
+    """
+    Data class representing a manga.
 
-    Parameters
+    Attributes
     ----------
     _client : httpx.Client
-        An instance of the HTTP client.
+        An instance of the HTTP client used for making API requests.
     id : int, optional
         The unique identifier for the manga.
     title_ru : str, optional
@@ -62,6 +68,8 @@ class Manga:
         A URL-friendly version of the manga's title.
     branches : list[Branch], optional
         A list of branches (e.g., publishers or series) related to the manga.
+    url: str, optional
+        The URL to the NewManga vesrion of the manga.
     original_url : str, optional
         The URL to the original source of the manga.
     english_url : str, optional
@@ -95,6 +103,7 @@ class Manga:
     original_status: MangaStatus | None = None
     slug: str | None = None
     branches: list[Branch] = field(default_factory=list)
+    url: str | None = None
     original_url: str | None = None
     english_url: str | None = None
     other_url: str | None = None
@@ -114,4 +123,72 @@ class Manga:
             An instance of the Manga class with the data fetched from the API.
         """
         response = self._client.get(constants.manga_api + "/" + slug).json()
-        return formatters.json_to_manga(self._client, response)
+        return formatters.json_to_object.json_to_manga(self._client, response)
+
+    def get_comments(self, sort_by: str = "new") -> "CommentsResponse":
+        """
+        Fetches comments for the manga.
+
+        Parameters
+        ----------
+        sort_by : str, optional
+            The sorting method for comments, by default "new".
+
+        Returns
+        -------
+        CommentsResponse
+            The response containing a list of comments.
+        """
+        params = queries_data.comments.copy()
+        params["sort_by"] = sort_by
+
+        response = self._client.get(
+            constants.comments.format(slug=self.slug), params=queries_data.comments
+        ).json()
+        return formatters.json_to_comments_response(response)
+
+    def get_similar(self) -> "SimilarResponse":
+        """
+        Fetches similar manga recommendations.
+
+        Returns
+        -------
+        SimilarResponse
+            The response containing a list of similar manga.
+        """
+        response = self._client.get(constants.similar.format(slug=self.slug)).json()
+        return formatters.json_to_similar_response(self._client, response)
+
+    def get_chapters(
+        self,
+        page: int = 1,
+        size: int = 25,
+        reverse: bool = False,
+    ) -> "ChaptersResponse":
+        """
+        Fetches a paginated list of chapters for the manga.
+
+        Parameters
+        ----------
+        page : int, optional
+            The page number to fetch, by default 1.
+        size : int, optional
+            The number of chapters per page, by default 25.
+        reverse : bool, optional
+            If true, chapters are ordered in reverse, by default False.
+
+        Returns
+        -------
+        ChaptersResponse
+            The response containing a list of chapters.
+        """
+        params = queries_data.chapters.copy()
+        params["page"] = str(page)
+        params["size"] = str(size)
+        params["reverse"] = str(reverse)
+
+        response = self._client.get(
+            constants.chapters.format(id=self.id),
+            params=params,
+        ).json()
+        return formatters.json_to_chapters_response(response)
