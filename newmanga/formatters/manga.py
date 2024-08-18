@@ -10,9 +10,9 @@ from ..typing.types import (
     Tag,
     Translator,
     Team,
-    User,
 )
 from ..constants import image_storage_url
+from . import json_to_object
 
 
 class MangaFormatter:
@@ -312,21 +312,7 @@ class MangaFormatter:
                             balance=translator["balance"],
                             is_team=translator["is_team"],
                             is_verified=translator["is_verified"],
-                            user=User(
-                                id=translator["user"]["id"],
-                                name=translator["user"]["name"],
-                                is_admin=translator["user"]["is_admin"],
-                                is_moderator=translator["user"]["is_moderator"],
-                                is_translator=translator["user"]["is_translator"],
-                                is_active=translator["user"]["is_active"],
-                                last_login=datetime.fromisoformat(
-                                    translator["user"]["last_login"],
-                                ),
-                                is_online=translator["user"]["is_online"],
-                                image_url=image_storage_url
-                                + "/"
-                                + translator["user"]["image"]["name"],
-                            )
+                            user=json_to_object.json_to_user(translator["user"])
                             if translator.get("user")
                             else None,
                             team=Team(
@@ -339,23 +325,7 @@ class MangaFormatter:
                                     Member(
                                         id=member["id"],
                                         statuses=member["statuses"],
-                                        user=User(
-                                            id=member["user"]["id"],
-                                            name=member["user"]["name"],
-                                            is_admin=member["user"]["is_admin"],
-                                            is_moderator=member["user"]["is_moderator"],
-                                            is_translator=member["user"][
-                                                "is_translator"
-                                            ],
-                                            is_active=member["user"]["is_active"],
-                                            last_login=datetime.fromisoformat(
-                                                member["user"]["last_login"],
-                                            ),
-                                            is_online=member["user"]["is_online"],
-                                            image_url=image_storage_url
-                                            + "/"
-                                            + member["user"]["image"]["name"],
-                                        )
+                                        user=json_to_object.json_to_user(member["user"])
                                         if member.get("user")
                                         else None,
                                     )
