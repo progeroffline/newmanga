@@ -1,4 +1,3 @@
-
 # NewManga
 This is not an official library written in python for getting manga from Newmanga website.
 
@@ -27,5 +26,3 @@ Here are examples for how to use the features of this library. Click on each lin
 - **View comments associated with manga**: [comments.py](examples/comments.py)
 - **Discover similar manga projects**: [similar_projects.py](examples/similar_projects.py)
 - **Get the first manga from the catalogue**: [first_manga.py](examples/first_manga.py)
-
-```
