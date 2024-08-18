@@ -1,24 +1,27 @@
 # NewManga
-This is not an official library written in python for getting manga from Newmanga website.
 
-
+**NewManga** is a Python library for retrieving manga information from the Newmanga website. Note that this is not an official library.
 
 ## Features
-- Search for manga in the catalogue.
-- Retrieve detailed information about manga.
-- Access short summaries of manga chapters.
-- View comments associated with manga.
-- Discover similar manga projects.
-- All responses are provided as dataclasses.
+
+- 🔍 **Search for manga** in the catalogue.
+- 📄 **Retrieve detailed information** about manga.
+- 📚 **Access short summaries** of manga chapters.
+- 💬 **View comments** associated with manga.
+- 🔗 **Discover similar manga projects**.
+- 📦 **All responses** are provided as dataclasses.
 
 ## Installing
+
+To install the library, run the following command:
+
 ```bash
 pip install newmanga
 ```
 
 ## Usage
 
-Here are examples for how to use the features of this library. Click on each link to view the corresponding example file.
+Here are examples demonstrating how to use various features of the library. Click on each link to view the corresponding example file:
 
 - **Search for manga in the catalogue**: [search.py](examples/search.py)
 - **Retrieve detailed information about manga**: [manga.py](examples/manga.py)
