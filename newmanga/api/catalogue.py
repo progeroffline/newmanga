@@ -1,5 +1,5 @@
 import httpx
-from typing import Generator, Optional
+from typing import Generator
 
 from .. import constants, formatters, queries_data
 from ..typing.responses import CatalogueResponse
