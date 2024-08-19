@@ -29,7 +29,7 @@ class Updates:
         params["page"] = page
         params["size"] = size
 
-        while response := self.client.get(constants.popular, params=params):
+        while response := self.client.get(constants.updates, params=params):
             if response.status_code in [502, 429]:
                 raise CatalogueTooManyRequestsError(
                     "You making too many requests in a row"
