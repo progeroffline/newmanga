@@ -6,6 +6,7 @@ images_storage_domain = "img.newmanga.org"
 
 # Endpoints section
 catalogue = f"https://{api_domain}/catalogue"
+popular = f"https://{api_v2_domain}/v2/projects/popular"
 manga = f"https://{web_domain}/p"
 comments = "https://" + api_v2_domain + "/v2/projects/{slug}/comments"
 similar = "https://" + api_v2_domain + "/v2/projects/{slug}/similar"

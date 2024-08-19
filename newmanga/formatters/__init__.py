@@ -5,6 +5,7 @@ from ..typing.responses import (
     CatalogueResponse,
     ChaptersResponse,
     CommentsResponse,
+    PopularResponse,
     SimilarResponse,
 )
 from . import json_to_object
@@ -36,6 +37,18 @@ def json_to_catalogue_reponse(
             json_to_object.json_to_manga(client, row["document"])
             for row in data["hits"]
         ],
+    )
+
+
+def json_to_popular_response(
+    client: httpx.Client,
+    data: dict[str, Any],
+    page: int,
+) -> PopularResponse:
+    return PopularResponse(
+        page=page,
+        total=data["count"],
+        mangas=[json_to_object.json_to_manga(client, row) for row in data["items"]],
     )
 
 

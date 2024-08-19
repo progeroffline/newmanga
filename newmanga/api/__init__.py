@@ -1,6 +1,7 @@
 from typing import Optional
 import httpx
 
+from .popular import Popular
 from .catalogue import Catalogue
 from .manga import Manga
 from ..constants import headers
@@ -15,4 +16,5 @@ class NewMangaApi:
             else None,
         )
         self.get_catalogue = Catalogue(self.client)
+        self.get_popular = Popular(self.client)
         self.get_manga = Manga(self.client)
