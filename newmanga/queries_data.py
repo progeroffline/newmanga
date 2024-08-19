@@ -52,3 +52,8 @@ popular = {
     "page": 1,
     "size": 32,
 }
+updates = {
+    "only_bookmarks": False,
+    "page": 1,
+    "size": 5,
+}

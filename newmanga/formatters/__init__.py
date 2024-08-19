@@ -8,6 +8,7 @@ from ..typing.responses import (
     PopularResponse,
     ReadNowResponse,
     SimilarResponse,
+    UpdatesResponse,
 )
 from . import json_to_object
 
@@ -60,6 +61,18 @@ def json_to_read_now_response(
     return ReadNowResponse(
         total=len(data),
         mangas=[json_to_object.json_to_manga(client, row) for row in data],
+    )
+
+
+def json_to_updates_response(
+    client: httpx.Client,
+    data: dict[str, Any],
+    page: int,
+) -> UpdatesResponse:
+    return UpdatesResponse(
+        page=page,
+        total=data["count"],
+        mangas=[json_to_object.json_to_manga(client, row) for row in data["items"]],
     )
 
 

@@ -40,6 +40,13 @@ class ReadNowResponse:
 
 
 @dataclass()
+class UpdatesResponse:
+    mangas: list[Manga]
+    total: int
+    page: int
+
+
+@dataclass()
 class CommentsResponse:
     """
     Data class representing a response containing a list of comments.
