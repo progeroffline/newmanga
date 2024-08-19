@@ -1,7 +1,6 @@
 import httpx
 from typing import Any
 from datetime import datetime
-
 from .manga import MangaFormatter
 from ..constants import image_storage_url
 from ..api.manga import Manga
@@ -15,31 +14,42 @@ def json_to_manga(client: httpx.Client, data: dict[str, Any]) -> Manga:
     Parameters
     ----------
     client : httpx.Client
-        An instance of the HTTP client.
+        An instance of the HTTP client used for making API requests.
     data : dict[str, Any]
-        A dictionary containing manga data.
+        A dictionary containing manga data with various attributes.
 
     Returns
     -------
     Manga
-        An instance of the Manga class initialized with the data from the dictionary.
+        A Manga object initialized with the data from the input dictionary,
+        containing attributes such as title, description, chapters, etc.
     """
     return Manga(_client=client, **MangaFormatter(data).get_vars())
 
 
 def json_to_user(data: dict[str, Any]) -> User:
     """
-    Converts a dictionary representing a user to a User object.
+    Convert JSON data to a User object.
 
     Parameters
     ----------
     data : dict[str, Any]
-        A dictionary containing user data.
+        A dictionary containing user information with the following keys:
+        - 'id': The user's unique identifier
+        - 'name': The user's name
+        - 'is_admin': Boolean indicating admin status
+        - 'is_moderator': Boolean indicating moderator status
+        - 'is_translator': Boolean indicating translator status
+        - 'is_active': Boolean indicating if the user is active
+        - 'last_login': ISO format string of last login time
+        - 'is_online': Boolean indicating if the user is currently online
+        - 'image': A dictionary containing 'name' key for the user's image
 
     Returns
     -------
     User
-        An object representing the user.
+        A User object containing the parsed data with attributes corresponding
+        to the input dictionary keys.
     """
     return User(
         id=data["id"],
@@ -48,9 +58,7 @@ def json_to_user(data: dict[str, Any]) -> User:
         is_moderator=data["is_moderator"],
         is_translator=data["is_translator"],
         is_active=data["is_active"],
-        last_login=datetime.fromisoformat(
-            data["last_login"],
-        ),
+        last_login=datetime.fromisoformat(data["last_login"]),
         is_online=data["is_online"],
         image_url=image_storage_url + "/" + data["image"]["name"],
     )
@@ -58,17 +66,30 @@ def json_to_user(data: dict[str, Any]) -> User:
 
 def json_to_comment(data: dict[str, Any]) -> Comment:
     """
-    Converts a dictionary representing a comment to a Comment object.
+    Convert JSON data to a Comment object.
 
     Parameters
     ----------
     data : dict[str, Any]
-        A dictionary containing comment data.
+        A dictionary containing comment information with the following keys:
+        - 'id': The comment's unique identifier
+        - 'html': The comment's text content
+        - 'chapter_id': ID of the associated chapter (optional)
+        - 'project_id': ID of the associated manga project (optional)
+        - 'team_id': ID of the associated team (optional)
+        - 'user': A dictionary containing user data
+        - 'created_at': ISO format string of comment creation time
+        - 'children': A list of dictionaries representing reply comments
+        - 'likes': Number of likes
+        - 'dislikes': Number of dislikes
+        - 'rating': The comment's rating
+        - 'parent_id': ID of the parent comment (optional)
 
     Returns
     -------
     Comment
-        An object representing the comment.
+        A Comment object containing the parsed data with attributes corresponding
+        to the input dictionary keys.
     """
     return Comment(
         id=data["id"],
@@ -88,17 +109,29 @@ def json_to_comment(data: dict[str, Any]) -> Comment:
 
 def json_to_chapter(data: dict[str, Any]) -> Chapter:
     """
-    Converts a dictionary representing a chapter to a Chapter object.
+    Convert JSON data to a Chapter object.
 
     Parameters
     ----------
     data : dict[str, Any]
-        A dictionary containing chapter data.
+        A dictionary containing chapter information with the following keys:
+        - 'id': The chapter's unique identifier
+        - 'tom': The volume number
+        - 'name': The chapter's name (optional)
+        - 'number': The chapter number
+        - 'project_id': ID of the associated manga project
+        - 'branch_id': ID of the associated branch
+        - 'hearts': Number of hearts/likes
+        - 'price': The chapter's price (optional)
+        - 'translator': Information about the translator
+        - 'created_at': ISO format string of chapter creation time
+        - 'pages': Number of pages in the chapter
 
     Returns
     -------
     Chapter
-        An object representing the chapter.
+        A Chapter object containing the parsed data with attributes corresponding
+        to the input dictionary keys.
     """
     return Chapter(
         id=data["id"],
@@ -116,6 +149,28 @@ def json_to_chapter(data: dict[str, Any]) -> Chapter:
 
 
 def json_to_tag(data: dict[str, Any]) -> Tag:
+    """
+    Convert JSON data to a Tag object.
+
+    Parameters
+    ----------
+    data : dict[str, Any]
+        A dictionary containing tag information with the following keys:
+        - 'id': The tag's identifier
+        - 'title': A nested dictionary with language-specific titles
+            - 'ru': Russian title
+            - 'en': English title
+            - 'original': Original language title
+
+    Returns
+    -------
+    Tag
+        A Tag object containing the parsed data with the following attributes:
+        - id: The tag's identifier
+        - title_ru: Russian title
+        - title_en: English title
+        - title_original: Original language title
+    """
     return Tag(
         id=data["id"],
         title_ru=data["title"]["ru"],

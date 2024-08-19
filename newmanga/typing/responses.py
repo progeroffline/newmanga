@@ -28,6 +28,28 @@ class CatalogueResponse:
 
 @dataclass()
 class PopularResponse:
+    """
+    Represents a response containing popular manga information.
+
+    Parameters
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing popular manga.
+    total : int
+        The total number of popular manga available.
+    page : int
+        The current page number of the response.
+
+    Attributes
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing popular manga.
+    total : int
+        The total number of popular manga available.
+    page : int
+        The current page number of the response.
+    """
+
     mangas: list[Manga]
     total: int
     page: int
@@ -35,12 +57,52 @@ class PopularResponse:
 
 @dataclass()
 class ReadNowResponse:
+    """
+    Represents a response containing 'Read Now' manga information.
+
+    Parameters
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing 'Read Now' manga.
+    total : int
+        The total number of 'Read Now' manga available.
+
+    Attributes
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing 'Read Now' manga.
+    total : int
+        The total number of 'Read Now' manga available.
+    """
+
     mangas: list[Manga]
     total: int
 
 
 @dataclass()
 class UpdatesResponse:
+    """
+    Represents a response containing manga updates information.
+
+    Parameters
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing updated manga.
+    total : int
+        The total number of updated manga available.
+    page : int
+        The current page number of the response.
+
+    Attributes
+    ----------
+    mangas : List[Manga]
+        A list of Manga objects representing updated manga.
+    total : int
+        The total number of updated manga available.
+    page : int
+        The current page number of the response.
+    """
+
     mangas: list[Manga]
     total: int
     page: int
@@ -48,6 +110,24 @@ class UpdatesResponse:
 
 @dataclass()
 class TagsResponse:
+    """
+    Represents a response containing tags information.
+
+    Parameters
+    ----------
+    tags : List[Tag]
+        A list of Tag objects.
+    total : int
+        The total number of tags available.
+
+    Attributes
+    ----------
+    tags : List[Tag]
+        A list of Tag objects.
+    total : int
+        The total number of tags available.
+    """
+
     tags: list[Tag]
     total: int
 

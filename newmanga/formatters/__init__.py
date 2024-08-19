@@ -48,6 +48,23 @@ def json_to_popular_response(
     data: dict[str, Any],
     page: int,
 ) -> PopularResponse:
+    """
+    Convert JSON data to a PopularResponse object.
+
+    Parameters
+    ----------
+    client : httpx.Client
+        An instance of the HTTP client.
+    data : dict[str, Any]
+        The JSON data containing popular manga information.
+    page : int
+        The current page number.
+
+    Returns
+    -------
+    PopularResponse
+        A PopularResponse object containing the parsed data.
+    """
     return PopularResponse(
         page=page,
         total=data["count"],
@@ -59,6 +76,21 @@ def json_to_read_now_response(
     client: httpx.Client,
     data: list[dict[str, Any]],
 ) -> ReadNowResponse:
+    """
+    Convert JSON data to a ReadNowResponse object.
+
+    Parameters
+    ----------
+    client : httpx.Client
+        An instance of the HTTP client.
+    data : list[dict[str, Any]]
+        The JSON data containing 'Read Now' manga information.
+
+    Returns
+    -------
+    ReadNowResponse
+        A ReadNowResponse object containing the parsed data.
+    """
     return ReadNowResponse(
         total=len(data),
         mangas=[json_to_object.json_to_manga(client, row) for row in data],
@@ -70,6 +102,23 @@ def json_to_updates_response(
     data: dict[str, Any],
     page: int,
 ) -> UpdatesResponse:
+    """
+    Convert JSON data to an UpdatesResponse object.
+
+    Parameters
+    ----------
+    client : httpx.Client
+        An instance of the HTTP client.
+    data : dict[str, Any]
+        The JSON data containing manga updates information.
+    page : int
+        The current page number.
+
+    Returns
+    -------
+    UpdatesResponse
+        An UpdatesResponse object containing the parsed data.
+    """
     return UpdatesResponse(
         page=page,
         total=data["count"],
@@ -80,6 +129,19 @@ def json_to_updates_response(
 def json_to_tags_response(
     data: list[dict[str, Any]],
 ) -> TagsResponse:
+    """
+    Convert JSON data to a TagsResponse object.
+
+    Parameters
+    ----------
+    data : list[dict[str, Any]]
+        The JSON data containing tags information.
+
+    Returns
+    -------
+    TagsResponse
+        A TagsResponse object containing the parsed and sorted tags data.
+    """
     tags = [json_to_object.json_to_tag(row) for row in data]
     tags.sort(key=lambda tag: tag.id if tag.id else 0)
     return TagsResponse(tags=tags, total=len(data))
