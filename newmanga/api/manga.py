@@ -183,9 +183,9 @@ class Manga:
             The response containing a list of chapters.
         """
         params = queries_data.chapters.copy()
-        params["page"] = str(page)
-        params["size"] = str(size)
-        params["reverse"] = str(reverse)
+        params["page"] = page
+        params["size"] = size
+        params["reverse"] = reverse
 
         response = self._client.get(
             constants.chapters.format(id=self.id),
