@@ -43,7 +43,17 @@ catalogue = {
 
 comments = {"sort_by": "new"}
 chapters = {
-    "reverse": "true",
-    "page": "1",
-    "size": "25",
+    "reverse": True,
+    "page": 1,
+    "size": 25,
+}
+popular = {
+    "scale": "week",
+    "page": 1,
+    "size": 32,
+}
+updates = {
+    "only_bookmarks": False,
+    "page": 1,
+    "size": 5,
 }

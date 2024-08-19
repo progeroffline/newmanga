@@ -226,15 +226,7 @@ class MangaFormatter:
         if isinstance(self.data["tags"][0], str):
             self.tags = [Tag(title_ru=tag) for tag in self.data["tags"]]
         else:
-            self.tags = [
-                Tag(
-                    id=tag["id"],
-                    title_ru=tag["title"]["ru"],
-                    title_en=tag["title"]["en"],
-                    title_original=tag["title"]["original"],
-                )
-                for tag in self.data["tags"]
-            ]
+            self.tags = [json_to_object.json_to_tag(tag) for tag in self.data["tags"]]
 
     def _load_author(self) -> None:
         """
@@ -312,14 +304,14 @@ class MangaFormatter:
             self.branches = [
                 Branch(
                     id=branch["id"],
-                    chapters_total=branch["chapters_total"],
-                    likes_total=branch["likes_total"],
-                    is_default=branch["is_default"],
-                    subscription=branch["subscription"],
+                    chapters_total=branch.get("chapters_total"),
+                    likes_total=branch.get("likes_total"),
+                    is_default=branch.get("is_default"),
+                    subscription=branch.get("subscription"),
                     translators=[
                         Translator(
                             id=translator["id"],
-                            balance=translator["balance"],
+                            balance=translator.get("balance"),
                             is_team=translator["is_team"],
                             is_verified=translator["is_verified"],
                             user=json_to_object.json_to_user(translator["user"])
@@ -340,7 +332,9 @@ class MangaFormatter:
                                         else None,
                                     )
                                     for member in translator["team"]["members"]
-                                ],
+                                ]
+                                if translator["team"].get("members")
+                                else [],
                             )
                             if translator.get("team")
                             else None,
