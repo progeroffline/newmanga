@@ -1,6 +1,7 @@
 from typing import Optional
 import httpx
 
+from .tags import Tags
 from .updates import Updates
 from .read_now import ReadNow
 from .popular import Popular
@@ -21,4 +22,5 @@ class NewMangaApi:
         self.get_popular = Popular(self.client)
         self.get_read_now = ReadNow(self.client)
         self.get_updates = Updates(self.client)
+        self.get_tags = Tags(self.client)
         self.get_manga = Manga(self.client)

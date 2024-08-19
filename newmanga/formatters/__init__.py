@@ -8,6 +8,7 @@ from ..typing.responses import (
     PopularResponse,
     ReadNowResponse,
     SimilarResponse,
+    TagsResponse,
     UpdatesResponse,
 )
 from . import json_to_object
@@ -74,6 +75,14 @@ def json_to_updates_response(
         total=data["count"],
         mangas=[json_to_object.json_to_manga(client, row) for row in data["items"]],
     )
+
+
+def json_to_tags_response(
+    data: list[dict[str, Any]],
+) -> TagsResponse:
+    tags = [json_to_object.json_to_tag(row) for row in data]
+    tags.sort(key=lambda tag: tag.id if tag.id else 0)
+    return TagsResponse(tags=tags, total=len(data))
 
 
 def json_to_comments_response(data: list[dict[str, Any]]) -> CommentsResponse:

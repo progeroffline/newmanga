@@ -5,7 +5,7 @@ from datetime import datetime
 from .manga import MangaFormatter
 from ..constants import image_storage_url
 from ..api.manga import Manga
-from ..typing.types import User, Comment, Chapter
+from ..typing.types import Tag, User, Comment, Chapter
 
 
 def json_to_manga(client: httpx.Client, data: dict[str, Any]) -> Manga:
@@ -112,4 +112,13 @@ def json_to_chapter(data: dict[str, Any]) -> Chapter:
         translator=data["translator"],
         create_at=datetime.fromisoformat(data["created_at"]),
         pages=data["pages"],
+    )
+
+
+def json_to_tag(data: dict[str, Any]) -> Tag:
+    return Tag(
+        id=data["id"],
+        title_ru=data["title"]["ru"],
+        title_en=data["title"]["en"],
+        title_original=data["title"]["original"],
     )

@@ -226,15 +226,7 @@ class MangaFormatter:
         if isinstance(self.data["tags"][0], str):
             self.tags = [Tag(title_ru=tag) for tag in self.data["tags"]]
         else:
-            self.tags = [
-                Tag(
-                    id=tag["id"],
-                    title_ru=tag["title"]["ru"],
-                    title_en=tag["title"]["en"],
-                    title_original=tag["title"]["original"],
-                )
-                for tag in self.data["tags"]
-            ]
+            self.tags = [json_to_object.json_to_tag(tag) for tag in self.data["tags"]]
 
     def _load_author(self) -> None:
         """
