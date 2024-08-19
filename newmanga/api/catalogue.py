@@ -25,12 +25,15 @@ class Catalogue:
             An instance of the HTTP client.
         """
         self.client = client
+        self.page = 1
+        self.size = 32
+        self.query = "*"
 
     def __call__(
         self,
-        query: Optional[str] = "*",
-        page: Optional[int] = 1,
-        size: Optional[int] = 32,
+        query: str = "*",
+        page: int = 1,
+        size: int = 32,
     ) -> CatalogueResponse:
         """
         Fetch the catalogue response for the given parameters.
@@ -52,13 +55,16 @@ class Catalogue:
         self.query = query
         self.page = page
         self.size = size
-        return next(self.next_page(query, page, size))
+        try:
+            return next(self.next_page(query, page, size))
+        except StopIteration:
+            return CatalogueResponse(mangas=[], page=self.page, found=0, total=0)
 
     def next_page(
         self,
-        query: Optional[str] = "*",
-        page: Optional[int] = 1,
-        size: Optional[int] = 32,
+        query: str = "*",
+        page: int = 1,
+        size: int = 32,
     ) -> Generator[CatalogueResponse, None, None]:
         """
         Yield catalogue responses page by page.
