@@ -9,6 +9,9 @@
 - 📚 **Access short summaries** of manga chapters.
 - 💬 **View comments** associated with manga.
 - 🔗 **Discover similar manga projects**.
+- 🌟 **Retrieve popular manga** and **manga currently being read**.
+- 🔄 **Get updated manga**.
+- 🏷️ **Receive manga tags**.
 - 📦 **All responses** are provided as dataclasses.
 
 ## Installing
