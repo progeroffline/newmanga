@@ -10,5 +10,4 @@ class ReadNow:
 
     def __call__(self) -> ReadNowResponse:
         response = self.client.get(constants.read_now)
-        print(response.json())
         return formatters.json_to_read_now_response(self.client, response.json())
