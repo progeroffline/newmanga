@@ -34,6 +34,12 @@ class PopularResponse:
 
 
 @dataclass()
+class ReadNowResponse:
+    mangas: list[Manga]
+    total: int
+
+
+@dataclass()
 class CommentsResponse:
     """
     Data class representing a response containing a list of comments.
